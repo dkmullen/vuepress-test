@@ -2,15 +2,7 @@
   <div>
     <form @submit.prevent="onSubmit" ref="form">
       <div>
-        <label for="post-type-select">Type of post</label><br />
-        <select
-          name="post-type"
-          id="post-type-select"
-          v-model="formData.postType"
-        >
-          <option value="notice">NOTICE</option>
-          <option value="update">Update to a notice</option>
-        </select>
+        <SelectView id="post-type" label="Type of post" :items="postTypes" v-model="formData.postType" @emitNew="updateType"/>
       </div>
       <div ref="editor"></div>
       <div class="button-row">
@@ -34,22 +26,28 @@
 <script>
 import Quill from 'quill';
 import ButtonView from './ButtonView.vue';
+import SelectView from './SelectView.vue';
 
 export default {
   props: {
     editorType: { type: String, default: 'notice' },
   },
-  components: { ButtonView },
+  components: { ButtonView, SelectView },
   data() {
     return {
       valid: false,
+      showModal: false,
       formData: {
-        postType: 'NOTICE',
+        postType: 'notice',
         currentUser: 'Dennis',
         updateTo: null,
         postData: null,
         timestamp: null,
       },
+      postTypes: [
+        { value: 'notice', label: 'NOTICE' },
+        { value: 'update', label: 'Update to a notice' },
+      ]
     };
   },
   mounted() {
@@ -72,8 +70,14 @@ export default {
       console.log(this.formData);
     },
     onCancel() {
-      console.log('You sure about that?');
+      console.log('cancel')
+      this.formData.postType = 'notice'
+      this.quill.root.innerHTML = '<p><br></p>'
+
     },
+    updateType(e) {
+      this.formData.postType = e;
+    }
   },
 };
 </script>
