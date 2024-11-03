@@ -9,7 +9,7 @@
         <ButtonView
           ref="cancelBtn"
           class="btn btn-secondary"
-          @click="onCancel"
+          @click="showCancelDialog = true"
           label="Cancel"
         />
         <ButtonView
@@ -21,22 +21,24 @@
       </div>
     </form>
   </div>
+  <DialogView v-if="showCancelDialog" ref="cancelDialog" @doAction="doCancel" @closeDialog="showCancelDialog = false" />
 </template>
 
 <script>
 import Quill from 'quill';
 import ButtonView from './ButtonView.vue';
 import SelectView from './SelectView.vue';
+import DialogView from './DialogView.vue';
 
 export default {
   props: {
     editorType: { type: String, default: 'notice' },
   },
-  components: { ButtonView, SelectView },
+  components: { ButtonView, SelectView, DialogView },
   data() {
     return {
       valid: false,
-      showModal: false,
+      showCancelDialog: false,
       formData: {
         postType: 'notice',
         currentUser: 'Dennis',
@@ -69,10 +71,11 @@ export default {
       this.formData.timestamp = Date.now();
       console.log(this.formData);
     },
-    onCancel() {
-      console.log('cancel')
+    doCancel() {
       this.formData.postType = 'notice'
       this.quill.root.innerHTML = '<p><br></p>'
+      console.log(this.formData)
+      this.showCancelDialog = false
 
     },
     updateType(e) {
