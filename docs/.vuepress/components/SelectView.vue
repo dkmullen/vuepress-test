@@ -37,5 +37,6 @@ emit ('emitNew', e.target.value)
     padding: 8px;
     min-width: 200px;
     margin-bottom: 1rem;
+    margin-top: 6px;
 }
 </style>

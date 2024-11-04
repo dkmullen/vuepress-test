@@ -35,8 +35,13 @@ export default {
 
 <style>
 @import 'quill/dist/quill.snow.css'; /* Include Quill's styles */
-.button-row {
-  text-align: center;
-  margin-top: 1rem;
+
+/* Set colors with vars to allow light/dark display */
+.ql-picker-label {
+  color: var(--vp-c-text);
+}
+.ql-snow .ql-stroke {
+  stroke: var(--vp-c-text);
+
 }
 </style>
